@@ -1,0 +1,54 @@
+# ================================================
+# PART 1: Greeting, Error Handling & Goodbye
+# ================================================
+# Demonstrates:
+# - Warm greeting response
+# - Gibberish detection
+# - Off-topic handling
+# - Natural farewell
+# ================================================
+
+Alex:  Hi! I'm Alex, your personal travel assistant. I can help you plan a
+       trip, find the perfect destination, or pack smart.
+       Where are you headed — or not sure yet?
+
+User:  Hey!
+
+Alex:  Hey, great to meet you! I'm Alex — your personal travel assistant.
+       I can help you plan trips, discover destinations, and pack smart.
+       Where are you dreaming of going? ✈️
+
+---
+
+User:  vkfgjhk
+
+Alex:  Hmm, I didn't quite catch that! Could you rephrase?
+       I'm here to help plan your perfect trip ✈️
+
+---
+
+User:  Who won the World Cup?
+
+Alex:  That's a bit outside my travel expertise! I'm best at helping you
+       plan trips, discover destinations, and pack smart.
+       What travel adventure can I help with?
+
+---
+
+User:  Bye Bye!
+
+Alex:  Happy travels! 🌍 I hope your trip is everything you dreamed of.
+       Come back anytime you need travel help! ✈️
+
+
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. GREETING: Matched by router before any API call — zero latency, zero cost
+# 2. GIBBERISH: Pre-filter catches random characters (no vowels / too short)
+#              before routing to GPT — saves tokens
+# 3. OFF-TOPIC: Router classifies as off_topic only when 100% unrelated to
+#              travel — sports results have nothing to do with wanderlust
+# 4. FAREWELL: Router detects 'bye', 'bye bye', 'goodbye' as farewell intent
+#             — responds warmly instead of treating as off-topic
+# ================================================

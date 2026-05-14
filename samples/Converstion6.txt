@@ -1,0 +1,116 @@
+# ================================================
+# PART 6: Full Journey — Error Recovery & Context Persistence
+# ================================================
+# Demonstrates:
+# - Budget planning flow
+# - Ambiguous exchange rate request handled gracefully
+# - Live ILS exchange rate for Israel
+# - "I don't know" handled naturally
+# - Connection errors recovered gracefully
+# - Context memory SURVIVES connection errors (Israel remembered!)
+# - Packing advice with all 3 clarifying questions
+# - Natural farewell
+# ================================================
+ 
+Alex:  Hi! I'm Alex, your personal travel assistant.
+       Where are you headed — or not sure yet?
+ 
+User:  How far will my budget go?
+ 
+Alex:  I'd love to help! Could you share your total budget amount?
+ 
+User:  what is exchange rate?
+ 
+Alex:  I only have verified rates for major currencies.
+       Please check XE.com for this currency.
+       What's your total budget amount?
+ 
+User:  I have $2500
+ 
+Alex:  Your $2,500 is approximately ¥394,550 JPY.
+       To help you see how far this budget can stretch,
+       what's your intended destination?
+ 
+User:  I want to travel to Israel
+ 
+Alex:  Israel is such a vibrant choice!
+       Your $2,500 is approximately 7,275 ILS (live rate).
+       How many days are you planning to stay?
+ 
+User:  I don't know
+ 
+Alex:  No worries! Are you leaning towards a longer stay
+       for exploration, or a shorter trip for a specific
+       occasion? This will help us figure out a good duration.
+ 
+--- [Connection error occurred here — Alex recovered gracefully] ---
+ 
+User:  What should I pack?
+ 
+Alex:  Before I help with packing, when are you planning
+       to travel? (month or season)
+ 
+       [Note: Alex remembered Israel from before the error]
+ 
+User:  summer
+ 
+Alex:  Got it! Summer in Israel. How many days are you
+       traveling and what activities are planned?
+ 
+User:  around 10 days
+ 
+Alex:  What main activities are planned during your 10 days
+       in Israel? Beach, historical sites, hiking, or city life?
+ 
+User:  relax at the beach
+ 
+Alex:  A beach getaway in Israel for 10 days in summer,
+       here's your tailored packing list:
+ 
+       Clothing:
+       - Swimsuits (2-3)
+       - Cover-ups or sarongs
+       - Lightweight shorts, tank tops, sundresses
+       - Light sweater for cooler evenings
+ 
+       Beach essentials:
+       - Lightweight beach towels
+       - Sunglasses and wide-brimmed hat
+       - Flip-flops or sandals
+       - Reef-safe sunscreen
+       - Beach bag
+ 
+       Hydration:
+       - Reusable water bottle, Israel summers are hot!
+ 
+User:  No, Thanks!
+ 
+Alex:  Happy travels! I hope your trip is everything
+       you dreamed of. Come back anytime you need travel help!
+ 
+ 
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. AMBIGUOUS EXCHANGE RATE: "what is exchange rate?" without
+#    destination, Alex asks for clarification instead of guessing
+#
+# 2. LIVE ILS RATE: Israel uses ILS, live rate fetched from API
+#    and injected into context before LLM responds
+#
+# 3. "I DON'T KNOW" HANDLING: User uncertain about duration,
+#    Alex helps figure it out with a guiding question
+#
+# 4. ERROR RECOVERY: Connection errors occurred mid-conversation.
+#    Alex returned friendly messages and recovered naturally
+#
+# 5. CONTEXT PERSISTENCE THROUGH ERRORS: Alex remembered Israel
+#    AFTER the connection errors. UserPreferences stores destination
+#    permanently, surviving any number of failed API calls
+#
+# 6. STAGED PACKING QUESTIONS: Even after errors, Alex collected
+#    all 3 required data points before giving the packing list
+#
+# 7. TAILORED OUTPUT: Packing list specifically mentions
+#    "Israel summers are hot" not generic advice
+# ================================================

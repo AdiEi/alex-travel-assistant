@@ -1,0 +1,181 @@
+# ================================================
+# PART 4: Complex Destination Discovery — Honeymoon Planning
+# ================================================
+# Demonstrates:
+# - Life event detection (just got married)
+# - Warm empathetic response
+# - 3 clarifying questions (vibe → budget → duration)
+# - Multiple destination recommendations
+# - Handling repeated rejections gracefully
+# - Destination comparison (Seychelles vs Maldives)
+# - Expert diving advice
+# - Budget remembered throughout entire conversation ($5000)
+# - Context memory across 15+ messages
+# - Graceful handling of unsupported currency (SCR)
+# ================================================
+
+Alex:  Hi! I'm Alex, your personal travel assistant.
+       Where are you headed — or not sure yet?
+
+User:  Help me find a destination
+
+Alex:  It sounds like you're craving a little adventure!
+       What kind of vibe are you looking for — relaxation,
+       culture, food, or something adventurous?
+
+User:  I just got married and want a romantic honeymoon
+
+Alex:  Congratulations on your marriage! 🎉
+       To find the perfect honeymoon destination,
+       could you share your budget for this trip?
+
+User:  I have $5000
+
+Alex:  With $5,000 here are two romantic options:
+
+       1. Santorini, Greece — stunning sunsets, white-washed
+          buildings, Mediterranean cuisine
+       2. Bora Bora, French Polynesia — turquoise lagoons,
+          luxury overwater bungalows
+
+       Any activities you'd love to include?
+
+User:  I don't like any of these, give me more destinations
+
+Alex:  Of course! Here are more romantic options:
+
+       1. Tuscany, Italy — rolling hills, vineyards, culture
+       2. Maldives — private villas, pristine sands, candlelit dinners
+       3. Kyoto, Japan — temples, tea houses, serene gardens
+
+User:  No, give me more options
+
+Alex:  Here are a few more:
+
+       1. Paris, France — City of Love, iconic landmarks
+       2. Amalfi Coast, Italy — coastal views, charming villages
+       3. Seychelles — incredible beaches, lush landscapes, tranquil paradise
+
+User:  Seychelles sounds great!
+
+Alex:  Seychelles is a fantastic choice for a romantic honeymoon!
+       How many days are you thinking of spending there?
+
+User:  10 days
+
+Alex:  Perfect! With 10 days in Seychelles, you can truly
+       soak in the beauty. What experiences are you hoping for?
+
+       Note: Live exchange rate for SCR is not available.
+       Budget shown in USD. Check XE.com for local rates.
+
+User:  What is the exchange rate?
+
+Alex:  I only have verified rates for major currencies.
+       Please check XE.com for this currency.
+       Can I help with planning your trip to Seychelles?
+
+User:  Is my budget enough for this country?
+
+Alex:  With $5,000 for 10 days in Seychelles — about $500/day —
+       you have a comfortable budget covering accommodation,
+       meals, activities and local transport.
+       Luxury resorts and fine dining can increase costs,
+       so planning ahead helps. Want a detailed itinerary?
+
+User:  I want to go in Summer
+
+Alex:  Summer is beautiful in Seychelles! What specific
+       activities are you hoping for during your 10 days?
+
+User:  Beach time, romantic dinners and snorkeling
+
+Alex:  That sounds absolutely dreamy! Here's a suggested itinerary:
+
+       Days 1-3: Anse Source d'Argent beach + sunset dinners
+       Days 4-6: Snorkeling at Sainte Anne Marine National Park
+                 + romantic picnic on secluded beach
+       Days 7-10: La Digue or Praslin — local markets,
+                  fresh seafood, tranquility
+
+       Want accommodation or dining recommendations?
+
+User:  Can you compare Seychelles vs Maldives for our honeymoon?
+       Which gives better value for my budget?
+
+Alex:  Great question! For your $5,000 budget:
+
+       Seychelles:
+       - Diverse landscapes: beaches, mountains, nature reserves
+       - More affordable dining, variety of accommodations
+       - Great for snorkeling, hiking, local culture
+       - Better value overall ✅
+
+       Maldives:
+       - Luxury private island resorts, higher price points
+       - Overwater bungalows, exclusive dining
+       - Focused on relaxation and water sports
+       - $5,000 may feel tight for 10 days
+
+       Seychelles gives better value for your budget.
+
+User:  We love diving, which has better diving spots?
+
+Alex:  Both are world-class! Here's the comparison:
+
+       Seychelles:
+       - Vibrant coral reefs, Aldabra Atoll (UNESCO)
+       - Turtles, rays, dramatic drop-offs, rock formations
+       - More varied overall experience
+
+       Maldives:
+       - Crystal clear water, Fish Head, Maaya Thila
+       - Sharks, manta rays, vibrant coral gardens
+       - Often called a diver's paradise
+
+       Both are exceptional — Seychelles offers more variety,
+       Maldives has sheer number of accessible sites.
+
+User:  But both fit my budget and 10 days?
+
+Alex:  Absolutely! Both fit $5,000 for 10 days:
+
+       Seychelles → affordable mix, diverse activities,
+                    budget stretches comfortably ✅
+       Maldives → mid-range options available, stunning
+                  scenery, unique diving and beaches ✅
+
+       Which destination are you leaning towards?
+
+User:  I think Seychelles is perfect for us! Thanks so much, bye!
+ 
+Alex:  Happy travels! 🌍 I hope your honeymoon is everything
+       you dreamed of. Come back anytime you need travel help! ✈️
+
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. LIFE EVENT DETECTION: "just got married" → warm
+#    congratulations + romantic framing throughout
+#
+# 2. BUDGET PERSISTENCE: $5000 mentioned once at message 3,
+#    remembered and used correctly at message 12 ("Is my
+#    budget enough?") — UserPreferences stores permanently
+#
+# 3. GRACEFUL REJECTION HANDLING: User rejected 3 sets of
+#    recommendations — Alex kept suggesting without frustration
+#    or repetition, naturally expanding the search
+#
+# 4. UNSUPPORTED CURRENCY: SCR not in live API feed →
+#    Alex transparently directed to XE.com, continued
+#    helping in USD — no hallucinated rate
+#
+# 5. CHAIN OF THOUGHT: Destination comparison used internal
+#    reasoning to weigh budget, duration, activities
+#
+# 6. CONTEXT MEMORY: Remembered $5000, 10 days, honeymoon,
+#    snorkeling preference across 15+ messages
+#
+# 7. EXPERT ADVICE: Diving comparison showed domain knowledge
+#    blended with user's specific preferences and budget
+# ================================================

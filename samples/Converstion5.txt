@@ -1,0 +1,70 @@
+# ================================================
+# PART 5: Edge Cases & LLM Limitation Handling
+# ================================================
+# Demonstrates:
+# - Unsupported currency detection (KPW - North Korean Won)
+# - Hallucination prevention via post-processing
+# - Graceful degradation to USD when currency unavailable
+# - Directing user to reliable external source (XE.com)
+# - Honest handling of LLM limitations
+# ================================================
+ 
+Alex:  Hi! I'm Alex, your personal travel assistant.
+       Where are you headed — or not sure yet?
+ 
+User:  I want to visit North Korea with $2000
+ 
+Alex:  North Korea is a fascinating but unique destination!
+       To give you a detailed breakdown, how many days
+       are you planning to stay?
+ 
+User:  10 days
+ 
+Alex:  With a budget of $2,000 for 10 days in North Korea,
+       here's a breakdown:
+ 
+       Total Budget: $2,000
+       Daily Budget: ~$200/day
+ 
+       Keep in mind that travel in North Korea is typically
+       through guided tours, which affects your spending.
+ 
+       Note: Live exchange rate for this destination is not
+       available. Budget shown in USD. Check XE.com for
+       local currency rates.
+ 
+User:  What's the exchange rate?
+ 
+Alex:  I only have verified rates for major currencies.
+       Please check XE.com for this currency.
+       If you need help with anything else, just let me know!
+ 
+User:  Thanks, bye!
+ 
+Alex:  Happy travels! 🌍 I hope your trip is everything
+       you dreamed of. Come back anytime you need travel help! ✈️
+ 
+ 
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. HALLUCINATION PREVENTION: Post-processing sanitizes LLM
+#    responses — removes any currency conversion not verified
+#    by our Exchange Rates API before showing to user
+#
+# 2. GRACEFUL DEGRADATION: When currency is unsupported,
+#    Alex doesn't crash or guess — provides USD analysis
+#    and directs user to XE.com for accurate rates
+#
+# 3. HONEST LLM LIMITATIONS: Alex never pretends to know
+#    things it doesn't — explicitly states when live data
+#    is unavailable rather than hallucinating a rate
+#
+# 4. TWO-LAYER PROTECTION:
+#    Layer 1: Context injection tells LLM which rates are verified
+#    Layer 2: Post-processing catches any hallucinated rates
+#    that slip through — defense in depth approach
+#
+# 5. USER TRUST: Directing to XE.com builds trust —
+#    we'd rather lose a conversion than give wrong numbers
+# ================================================

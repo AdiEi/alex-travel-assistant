@@ -1,0 +1,67 @@
+# ================================================
+# PART 3: Packing Advice
+# ================================================
+# Demonstrates:
+# - Packing advice flow
+# - Collecting destination, season, duration, activities
+# - Tailored packing list based on all 4 factors
+# - Context-aware recommendations
+# ================================================
+
+Alex:  Hi! I'm Alex, your personal travel assistant.
+       Where are you headed — or not sure yet?
+
+User:  What should I pack?
+
+Alex:  I'd love to help! First, what's your destination?
+
+User:  Thailand
+
+Alex:  Great choice! When are you planning to travel?
+
+User:  I think about March
+
+Alex:  Perfect! How many days are you staying?
+
+User:  14 days
+
+Alex:  Fantastic! What activities are you planning?
+       (beach, hiking, city exploring, formal dining)
+
+User:  A mix of hiking and beaches
+
+Alex:  14-day Thailand packing list for March — hiking + beaches:
+
+       Clothing:
+       - Lightweight quick-dry hiking pants and shorts
+       - Breathable t-shirts and tank tops
+       - Swimsuits (2-3)
+       - Light jacket for cooler evenings
+       - Flip-flops + sturdy hiking shoes
+
+       Accessories:
+       - Sun hat, sunglasses, lightweight daypack
+       - Beach towel, reef-safe sunscreen
+       - Insect repellent
+
+       Essentials:
+       - Reusable water bottle
+       - Camera, travel adapter
+
+       [Photo of Thailand displayed in chat]
+
+User:  Thanks! Bye bye!
+
+Alex:  Happy travels! 🌍 I hope your trip is everything you dreamed of.
+       Come back anytime you need travel help! ✈️
+
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. STAGED QUESTIONS: Alex collects 4 data points before packing —
+#    destination, season, duration, activities — one at a time
+# 2. PERSONALIZATION: Packing list is tailored to specific combination
+#    of destination + season + activities — not generic
+# 3. CONTEXT MEMORY: Alex remembers all answers throughout conversation
+# 4. PHOTO TRIGGER: Destination mention triggers Unsplash API call
+# ================================================

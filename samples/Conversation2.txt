@@ -1,0 +1,63 @@
+# ================================================
+# PART 2: Budget Planning with Live Exchange Rates
+# ================================================
+# Demonstrates:
+# - Budget question flow
+# - Live exchange rate API
+# - Daily breakdown in local currency (ILS)
+# ================================================
+
+Alex:  Hi! I'm Alex, your personal travel assistant.
+       Where are you headed — or not sure yet?
+
+User:  How far will my budget go?
+
+Alex:  I'd love to help! Can you tell me your total budget?
+
+User:  I have $3000
+
+Alex:  Your $3,000 is approximately:
+       ¥473,370 JPY | €2,550 EUR | £2,220 GBP
+       [Fetching live rates from Exchange Rates API]
+
+User:  I want to travel to Israel
+
+Alex:  Israel is incredible! Your $3,000 = ₪8,730 ILS (live rate).
+       How many days are you planning?
+
+User:  Around 7 days
+
+Alex:  7-day daily breakdown in Israel:
+       - Accommodation: ₪400 ILS/day
+       - Food:          ₪200 ILS/day
+       - Activities:    ₪300 ILS/day
+       - Daily total:   ₪900 ILS (~$270 USD)
+
+       Plenty to explore — markets, history, amazing food!
+       What are you most excited to do in Israel?
+
+       [Photo of Israel displayed in chat]
+
+User:  I think I get it! Thanks!
+
+Alex:  Happy travels! 🌍 I hope your trip is everything you dreamed of.
+       Come back anytime you need travel help! ✈️
+
+
+# ================================================
+# KEY PROMPT ENGINEERING DECISIONS IN THIS PART:
+# ================================================
+# 1. BUDGET DETECTION: Router sets needs_exchange_rate=true when message
+#    contains budget/money signals — triggers live Exchange Rates API call
+# 2. LIVE RATES: LLM cannot know today's exchange rates — API provides
+#    real-time data injected into context before LLM responds
+# 3. LOCAL CURRENCY: System prompt instructs Alex to always convert budget
+#    to destination's local currency for practical, accurate planning
+# 4. STAGED QUESTIONING: Alex collects budget → destination → duration
+#    one question at a time — never overwhelming the user
+# 5. FAREWELL: Router detects 'thanks', 'I get it', 'bye' as farewell
+#    intent — responds warmly to close the conversation naturally
+# ================================================
+
+
+

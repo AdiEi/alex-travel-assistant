@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex — Your Personal Travel Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:       #f8f6f1;
+      --white:       #ffffff;
+      --border:      #ddd8cf;
+      --text-dark:   #1a1a1a;
+      --text-mid:    #555550;
+      --text-muted:  #9a9590;
+      --green:       #1e4d2b;
+      --green-hover: #163a20;
+      --terra:       #c4622d;
+      --terra-light: rgba(196, 98, 45, 0.09);
+      --shadow:      0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: var(--cream);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text-dark);
+    }
+
+    /* ─── Animations ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0);    opacity: 0.3; }
+      50%       { transform: translateY(-4px); opacity: 1;   }
+    }
+
+    /* ─── App shell ───────────────────────────────────── */
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 0 0 1px var(--border);
+    }
+
+    /* Thin terracotta rule at very top */
+    .top-rule {
+      height: 3px;
+      background: var(--terra);
+      flex-shrink: 0;
+    }
+
+    /* ─── Header ──────────────────────────────────────── */
+    .header {
+      flex-shrink: 0;
+      padding: 1.2rem 2rem 1.05rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: 0.01em;
+    }
+    .header h1 .plane {
+      color: var(--terra);
+      font-style: normal;
+    }
+    .header .tagline {
+      font-size: 0.75rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 0.22rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Chat window ─────────────────────────────────── */
+    .chat-window {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 1.85rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      background: var(--cream);
+      scroll-behavior: smooth;
+    }
+    .chat-window::-webkit-scrollbar { width: 4px; }
+    .chat-window::-webkit-scrollbar-track { background: transparent; }
+    .chat-window::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    /* ─── Messages ────────────────────────────────────── */
+    .message {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.55rem;
+      animation: fadeUp 0.22s ease forwards;
+    }
+    .message.user {
+      align-self: flex-end;
+      max-width: 68%;
+      flex-direction: row-reverse;
+    }
+    .message.alex {
+      align-self: flex-start;
+      max-width: 74%;
+    }
+
+    /* ─── Avatar ──────────────────────────────────────── */
+    .avatar {
+      flex-shrink: 0;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+    }
+
+    /* ─── Bubbles ─────────────────────────────────────── */
+    .bubble {
+      padding: 0.68rem 1rem;
+      border-radius: 12px;
+      line-height: 1.65;
+      font-size: 0.91rem;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .message.user .bubble {
+      background: var(--terra);
+      color: var(--white);
+      border-bottom-right-radius: 3px;
+    }
+    .message.alex .bubble {
+      background: var(--white);
+      color: var(--text-dark);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 3px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ─── Destination photo ───────────────────────────── */
+    .photo-figure {
+      display: block;
+      margin: 0.65rem 0 0;
+    }
+    .dest-photo {
+      display: block;
+      max-width: 280px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.09);
+      object-fit: cover;
+    }
+    .photo-caption {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      color: var(--terra);
+      font-size: 0.76rem;
+      margin-top: 0.28rem;
+      text-align: center;
+    }
+
+    /* ─── Quick-start suggestion buttons ─────────────── */
+    .quick-start {
+      /* Indent to align with bubble start: avatar(30px) + gap(0.55rem) */
+      padding-left: calc(30px + 0.55rem);
+      align-self: flex-start;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.2rem;
+    }
+    .quick-btn {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.8rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text-mid);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .quick-btn:hover  { background: var(--green); border-color: var(--green); color: var(--white); }
+    .quick-btn:active { transform: scale(0.97); }
+
+    /* ─── Typing indicator ────────────────────────────── */
+    .typing-bubble {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0.72rem 1rem;
+      min-width: 58px;
+    }
+    .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.15s; }
+    .dot:nth-child(3) { animation-delay: 0.30s; }
+
+    /* ─── Input area ──────────────────────────────────── */
+    .input-area {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.85rem 1.85rem 1rem;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+    .msg-input {
+      flex: 1;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0.62rem 1rem;
+      color: var(--text-dark);
+      font-size: 0.91rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .msg-input::placeholder { color: var(--text-muted); }
+    .msg-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(30,77,43,0.07);
+    }
+    .msg-input:disabled { opacity: 0.45; }
+
+    /* ─── Buttons ─────────────────────────────────────── */
+    .send-btn {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 7px;
+      border: none;
+      background: var(--green);
+      color: var(--white);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: background 0.15s, transform 0.1s, opacity 0.15s;
+    }
+    .send-btn:hover  { background: var(--green-hover); }
+    .send-btn:active { transform: scale(0.94); }
+    .send-btn:disabled { opacity: 0.38; cursor: default; transform: none; }
+
+    .reset-btn {
+      flex-shrink: 0;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      padding: 0.38rem 0.8rem;
+      font-size: 0.75rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .reset-btn:hover { color: var(--text-mid); border-color: var(--text-muted); }
+
+    /* ─── Responsive ──────────────────────────────────── */
+    @media (max-width: 580px) {
+      .header h1  { font-size: 1.3rem; }
+      .message.user, .message.alex { max-width: 87%; }
+      .chat-window  { padding: 1rem; }
+      .input-area   { padding: 0.6rem 1rem 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div class="top-rule"></div>
+
+  <header class="header">
+    <h1>Alex <span class="plane">✈</span></h1>
+    <p class="tagline">Your Personal Travel Companion</p>
+  </header>
+
+  <div class="chat-window" id="chat-window" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+  <footer class="input-area">
+    <button class="reset-btn" id="reset-btn" title="Start a new conversation">↺ New trip</button>
+    <input
+      class="msg-input"
+      type="text"
+      id="msg-input"
+      placeholder="Where are you dreaming of going?"
+      autocomplete="off"
+      aria-label="Your message"
+    />
+    <button class="send-btn" id="send-btn" aria-label="Send">→</button>
+  </footer>
+</div>
+
+<script>
+  // ── Chat engine ────────────────────────────────────────────
+  const chatEl   = document.getElementById('chat-window');
+  const inputEl  = document.getElementById('msg-input');
+  const sendBtn  = document.getElementById('send-btn');
+  const resetBtn = document.getElementById('reset-btn');
+
+  // Extract all photo URLs from Alex's reply. Returns cleaned text + [{dest, url}].
+  // Three passes in order of specificity:
+  //   1. "Photo of Destination: URL"  — named label, captured as caption
+  //   2. "Photo: URL"                 — unnamed label
+  //   3. Any bare https://images.unsplash.com/... URL left anywhere in the text
+  function parseReply(raw) {
+    const photos = [];
+    const seen = new Set();
+
+    function addPhoto(url, dest = null) {
+      // Strip trailing punctuation the LLM may place after a URL.
+      const clean = url.replace(/[.,!?)]+$/, '');
+      if (!seen.has(clean)) { seen.add(clean); photos.push({ dest, url: clean }); }
+    }
+
+    let text = raw;
+
+    // Pass 1 — named: "Photo of Destination: URL"
+    text = text.replace(/\n?Photo of ([^:\n]+):\s*(https?:\/\/\S+)/gi, (_, dest, url) => {
+      addPhoto(url, dest.trim());
+      return '';
+    });
+
+    // Pass 2 — unnamed label: "Photo: URL"
+    text = text.replace(/\n?Photo:\s*(https?:\/\/\S+)/gi, (_, url) => {
+      addPhoto(url);
+      return '';
+    });
+
+    // Pass 3 — any bare Unsplash URL remaining anywhere in the text
+    text = text.replace(/https?:\/\/images\.unsplash\.com\/\S+/gi, (url) => {
+      addPhoto(url);
+      return '';
+    });
+
+    return { text: text.trim(), photos };
+  }
+
+  function addMessage(role, content) {
+    const isUser = role === 'user';
+    const { text, photos } = parseReply(content);
+
+    const wrap = document.createElement('div');
+    wrap.className = `message ${isUser ? 'user' : 'alex'}`;
+
+    if (!isUser) {
+      const av = document.createElement('div');
+      av.className = 'avatar';
+      av.textContent = '✈';
+      wrap.appendChild(av);
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+
+    photos.forEach(({ dest, url }) => {
+      const fig = document.createElement('figure');
+      fig.className = 'photo-figure';
+
+      const img = document.createElement('img');
+      img.className = 'dest-photo';
+      img.src = url;
+      img.alt = dest || 'Destination photo';
+      img.loading = 'lazy';
+      img.onerror  = () => fig.remove();
+      img.onload   = () => { chatEl.scrollTop = chatEl.scrollHeight; };
+      fig.appendChild(img);
+
+      if (dest) {
+        const cap = document.createElement('figcaption');
+        cap.className = 'photo-caption';
+        cap.textContent = dest;
+        fig.appendChild(cap);
+      }
+
+      bubble.appendChild(fig);
+    });
+
+    wrap.appendChild(bubble);
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'message alex';
+    wrap.id = 'typing';
+
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.textContent = '✈';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble typing-bubble';
+    for (let i = 0; i < 3; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      bubble.appendChild(d);
+    }
+
+    wrap.appendChild(av);
+    wrap.appendChild(bubble);
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function setLocked(locked) {
+    inputEl.disabled = locked;
+    sendBtn.disabled = locked;
+  }
+
+  // ── Quick-start buttons ─────────────────────────────────────────────────
+  const QUICK_PROMPTS = [
+    { emoji: '🌍', text: 'Help me find a destination' },
+    { emoji: '💱', text: 'How far will my budget go?' },
+    { emoji: '🎒', text: 'What should I pack?' },
+  ];
+
+  function addQuickStart() {
+    const container = document.createElement('div');
+    container.className = 'quick-start';
+    container.id = 'quick-start';
+    QUICK_PROMPTS.forEach(({ emoji, text }) => {
+      const btn = document.createElement('button');
+      btn.className = 'quick-btn';
+      btn.textContent = `${emoji} ${text}`;
+      btn.addEventListener('click', () => {
+        removeQuickStart();
+        inputEl.value = text;
+        send();
+      });
+      container.appendChild(btn);
+    });
+    chatEl.appendChild(container);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function removeQuickStart() {
+    document.getElementById('quick-start')?.remove();
+  }
+
+  async function send() {
+    const text = inputEl.value.trim();
+    if (!text || sendBtn.disabled) return;
+
+    removeQuickStart();
+    inputEl.value = '';
+    addMessage('user', text);
+    showTyping();
+    setLocked(true);
+
+    try {
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+      });
+      if (!res.ok) throw new Error('server error');
+      const { reply } = await res.json();
+      document.getElementById('typing')?.remove();
+      addMessage('alex', reply);
+    } catch {
+      document.getElementById('typing')?.remove();
+      addMessage('alex', 'Something went wrong on my end. Try asking again!');
+    } finally {
+      setLocked(false);
+      inputEl.focus();
+    }
+  }
+
+  async function resetChat() {
+    await fetch('/reset', { method: 'POST' }).catch(() => {});
+    chatEl.innerHTML = '';
+    addMessage('alex', 'Fresh start. Where shall we explore next?');
+    addQuickStart();
+  }
+
+  sendBtn.addEventListener('click', send);
+  resetBtn.addEventListener('click', resetChat);
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+
+  // Welcome message + quick-start buttons
+  addMessage('alex', 'Hi! I\'m Alex, your personal travel assistant. I can help you plan a trip, find the perfect destination, or pack smart.\n\nWhere are you headed — or not sure yet?');
+  addQuickStart();
+  inputEl.focus();
+</script>
+</body>
+</html>
