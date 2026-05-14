@@ -429,7 +429,16 @@ class TravelAssistant:
                 supported = self.exchange.get_supported_rates_only(
                     extra_currency=dest_currency
                 )
-                if supported:
+                # Only inject when we can provide a verified rate that is actually
+                # useful for this conversation:
+                #   (a) no specific destination currency is expected → inject top
+                #       currencies (user asked a generic exchange-rate question)
+                #   (b) the destination's currency IS confirmed in the API response
+                # If dest_currency is known but missing from the API → stay silent.
+                # This prevents the "not available" SYSTEM_PROMPT rule from firing
+                # on a proactive injection the user never asked for.
+                can_inject = dest_currency is None or dest_currency in supported
+                if supported and can_inject:
                     supported_currencies = set(supported.keys())
                     lines = [
                         "[VERIFIED LIVE RATES FROM API - ONLY USE THESE RATES, NO OTHERS:"

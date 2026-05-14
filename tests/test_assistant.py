@@ -35,6 +35,9 @@ def assistant():
             "USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "ILS", "THB",
             "KPW", "IDR", "INR", "MXN", "BRL", "SGD", "NZD", "AED", "TRY",
         })
+        # Default: no destination-specific currency (matches real behaviour when no
+        # destination is present). Tests that need a specific value override this.
+        a.exchange.currency_for.return_value = None
         a.unsplash = MagicMock()
         # Default: any message routed as a practical trip-planning query.
         a.router = MagicMock()
